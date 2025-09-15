@@ -1,0 +1,23 @@
+{
+  "version": "0.0.0",
+  "name": "deed",
+  "metadata": {
+    "address": "${DEED_PROGRAM_ID}"
+  },
+  "instructions": [
+    {
+      "name": "mintFractions",
+      "accounts": [
+        { "name": "deed", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": true, "isSigner": true },
+        { "name": "fractionMint", "isMut": true, "isSigner": false },
+        { "name": "fractionTreasury", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "quantity", "type": "u64" }
+      ]
+    }
+  ]
+}
+
