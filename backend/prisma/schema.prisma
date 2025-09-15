@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  email     String   @unique
+  name      String?
+  wallet    String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  orders      Order[]
+  holdings    Holding[]
+  transactions Transaction[]
+
+  @@map("profiles")
+}
+
+model Listing {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  price       Decimal  @db.Decimal(15, 2)
+  totalSupply Int      // Total number of fractions
+  imageUrl    String?
+  location    String?
+  status      String   @default("ACTIVE") // ACTIVE, SOLD, CANCELLED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  orders      Order[]
+  holdings    Holding[]
+  transactions Transaction[]
+
+  @@map("listings")
+}
+
+model Order {
+  id        String      @id @default(cuid())
+  userId    String
+  listingId String
+  quantity  Int
+  status    OrderStatus @default(PENDING)
+  amount    Decimal     @db.Decimal(15, 2)
+  txHash    String?     // Blockchain transaction hash
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  // Relations
+  user    Profile  @relation(fields: [userId], references: [id])
+  listing Listing  @relation(fields: [listingId], references: [id])
+
+  @@map("orders")
+}
+
+model Transaction {
+  id        String            @id @default(cuid())
+  userId    String
+  listingId String
+  orderId   String?
+  type      TransactionType
+  amount    Decimal           @db.Decimal(15, 2)
+  txHash    String            @unique
+  status    TransactionStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  // Relations
+  user    Profile  @relation(fields: [userId], references: [id])
+  listing Listing  @relation(fields: [listingId], references: [id])
+  order   Order?   @relation(fields: [orderId], references: [id])
+
+  @@map("transactions")
+}
+
+model Holding {
+  id        String   @id @default(cuid())
+  userId    String
+  listingId String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user    Profile @relation(fields: [userId], references: [id])
+  listing Listing @relation(fields: [listingId], references: [id])
+
+  // Unique constraint to prevent duplicate holdings
+  @@unique([userId, listingId])
+  @@map("holdings")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  FAILED
+}
+
+enum TransactionType {
+  PURCHASE
+  SALE
+  TRANSFER
+  MINT
+  BURN
+}
+
+enum TransactionStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+}

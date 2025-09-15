@@ -1,0 +1,61 @@
+### Deedify API Test Requests
+### Use this file in VS Code with REST Client extension or JetBrains HTTP Client
+
+@baseUrl = http://localhost:3001
+@userId = test-user-123
+@listingId = test-listing-456
+@orderId = test-order-789
+
+### 1. Create a PENDING order
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "userId": "{{userId}}",
+  "listingId": "{{listingId}}",
+  "quantity": 10,
+  "amount": 10000
+}
+
+### 2. Process fiat payment webhook (simulates success)
+POST {{baseUrl}}/orders/fiat/webhook
+Content-Type: application/json
+
+{
+  "orderId": "{{orderId}}",
+  "status": "success",
+  "txHash": "mock_tx_hash_123"
+}
+
+### 3. Get all orders for a user
+GET {{baseUrl}}/orders/user/{{userId}}
+
+### 4. Get specific order by ID
+GET {{baseUrl}}/orders/{{orderId}}
+
+### 5. Get API documentation
+GET {{baseUrl}}/api
+
+### 6. Health check (if implemented)
+GET {{baseUrl}}/health
+
+### Example with real data (replace with actual IDs from your database)
+### Create order with real user and listing IDs
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "userId": "clx1234567890abcdef",
+  "listingId": "clx0987654321fedcba",
+  "quantity": 25,
+  "amount": 25000
+}
+
+### Process webhook with real order ID
+POST {{baseUrl}}/orders/fiat/webhook
+Content-Type: application/json
+
+{
+  "orderId": "clx1111111111111111",
+  "status": "success"
+}

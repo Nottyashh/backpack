@@ -1,0 +1,85 @@
+{
+  "version": "0.1.0",
+  "name": "deed",
+  "instructions": [
+    {
+      "name": "mintFractions",
+      "accounts": [
+        {
+          "name": "deedAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fractionMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fractionTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "quantity",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DeedAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "fractionMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalSupply",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidQuantity",
+      "msg": "Invalid quantity for minting"
+    },
+    {
+      "code": 6001,
+      "name": "Unauthorized",
+      "msg": "Unauthorized access"
+    }
+  ]
+}
