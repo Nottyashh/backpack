@@ -1,0 +1,83 @@
+### Deedify Backend API Testing
+### Base URL: http://localhost:3001/api
+
+### 1. Create a new order (PENDING status)
+POST http://localhost:3001/api/orders
+Content-Type: application/json
+
+{
+  "userId": "user123",
+  "listingId": "listing456",
+  "quantity": 10,
+  "paymentMethod": "FIAT"
+}
+
+### 2. Simulate fiat payment success (triggers escrow release + token minting)
+POST http://localhost:3001/api/orders/fiat/webhook
+Content-Type: application/json
+
+{
+  "orderId": "{{orderId}}",
+  "status": "success",
+  "paymentId": "stripe_payment_123",
+  "transactionId": "tx_456",
+  "amount": 5000
+}
+
+### 3. Simulate fiat payment failure
+POST http://localhost:3001/api/orders/fiat/webhook
+Content-Type: application/json
+
+{
+  "orderId": "{{orderId}}",
+  "status": "failed",
+  "paymentId": "stripe_payment_124"
+}
+
+### 4. Get order by ID
+GET http://localhost:3001/api/orders/{{orderId}}
+
+### 5. Get user's orders
+GET http://localhost:3001/api/orders/user/user123
+
+### 6. Get all orders (admin)
+GET http://localhost:3001/api/orders
+
+### ========================================
+### EXAMPLE WORKFLOW (Copy orderId from step 1 response)
+### ========================================
+
+### Step 1: Create test data first (you'll need to run Prisma migrations and seed)
+### Then create an order:
+POST http://localhost:3001/api/orders
+Content-Type: application/json
+
+{
+  "userId": "test-user-1",
+  "listingId": "test-listing-1",
+  "quantity": 5,
+  "paymentMethod": "FIAT"
+}
+
+### Step 2: Copy the order ID from above response and use it here:
+### Replace "ORDER_ID_HERE" with actual order ID
+POST http://localhost:3001/api/orders/fiat/webhook
+Content-Type: application/json
+
+{
+  "orderId": "ORDER_ID_HERE",
+  "status": "success",
+  "paymentId": "test_payment_123",
+  "transactionId": "test_tx_456",
+  "amount": 2500
+}
+
+### Step 3: Check the completed order:
+GET http://localhost:3001/api/orders/ORDER_ID_HERE
+
+### ========================================
+### HEALTH CHECK
+### ========================================
+
+### Simple health check - should return empty array initially
+GET http://localhost:3001/api/orders
