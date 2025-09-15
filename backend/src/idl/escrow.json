@@ -1,0 +1,6 @@
+{
+  // TODO: Replace with actual escrow program IDL JSON
+  "name": "escrow",
+  "version": "0.0.0",
+  "instructions": []
+}
