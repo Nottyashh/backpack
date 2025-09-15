@@ -1,0 +1,46 @@
+### Deedify API Test Requests
+### Use this file with VS Code REST Client or JetBrains HTTP Client
+
+@baseUrl = http://localhost:3001
+@contentType = application/json
+
+### 1. Create a new order (PENDING)
+POST {{baseUrl}}/orders
+Content-Type: {{contentType}}
+
+{
+  "userId": "user_123",
+  "listingId": "listing_456",
+  "quantity": 10
+}
+
+### 2. Process fiat payment webhook (SUCCESS)
+POST {{baseUrl}}/orders/fiat/webhook
+Content-Type: {{contentType}}
+
+{
+  "orderId": "order_789",
+  "status": "SUCCESS",
+  "transactionHash": "tx_abc123"
+}
+
+### 3. Process fiat payment webhook (FAILED)
+POST {{baseUrl}}/orders/fiat/webhook
+Content-Type: {{contentType}}
+
+{
+  "orderId": "order_789",
+  "status": "FAILED"
+}
+
+### 4. Get orders for a user
+GET {{baseUrl}}/orders/user/user_123
+
+### 5. Get order by ID
+GET {{baseUrl}}/orders/order_789
+
+### 6. Health check (if implemented)
+GET {{baseUrl}}/health
+
+### 7. Swagger documentation
+GET {{baseUrl}}/api
