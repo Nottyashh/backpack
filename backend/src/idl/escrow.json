@@ -1,0 +1,20 @@
+{
+  "version": "0.0.0",
+  "name": "escrow",
+  "metadata": {
+    "address": "${ESCROW_PROGRAM_ID}"
+  },
+  "instructions": [
+    {
+      "name": "release",
+      "accounts": [
+        { "name": "escrow", "isMut": true, "isSigner": false },
+        { "name": "payer", "isMut": true, "isSigner": true },
+        { "name": "receiver", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    }
+  ]
+}
+

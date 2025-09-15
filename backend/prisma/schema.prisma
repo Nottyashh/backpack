@@ -1,0 +1,66 @@
+// Placeholder Prisma schema reflecting minimum models used by the service.
+// TODO: Replace with Amplication-generated schema to avoid duplication. Align fields or adjust service mappers.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Listing {
+  id        String   @id @default(uuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  userId       String
+  listingId    String
+  quantity     Int
+  status       OrderStatus
+  fiatPaymentId String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Transaction {
+  id        String   @id @default(uuid())
+  orderId   String
+  signature String
+  chain     String
+  kind      String
+  status    String
+  createdAt DateTime @default(now())
+}
+
+model Holding {
+  id        String   @id @default(uuid())
+  userId    String
+  listingId String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, listingId])
+}
+
+// View v_portfolio not modeled here. Use native query if needed.
+
