@@ -1,0 +1,23 @@
+{
+  "version": "0.0.0",
+  "name": "deed_placeholder",
+  "instructions": [
+    {
+      "name": "mintFractions",
+      "accounts": [
+        { "name": "deed", "isMut": true, "isSigner": false },
+        { "name": "mint", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": false, "isSigner": true },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "quantity", "type": "u64" }
+      ]
+    }
+  ],
+  "metadata": {
+    "placeholder": true,
+    "todo": "Replace entire file with real deed IDL JSON."
+  }
+}
+

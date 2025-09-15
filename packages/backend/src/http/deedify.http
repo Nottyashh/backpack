@@ -1,0 +1,19 @@
+### Create pending order
+POST http://localhost:3001/orders
+Content-Type: application/json
+
+{
+  "userId": "11111111-1111-1111-1111-111111111111",
+  "listingId": "22222222-2222-2222-2222-222222222222",
+  "quantity": 3,
+  "paymentMethod": "fiat"
+}
+
+### Simulate fiat webhook success
+POST http://localhost:3001/orders/fiat/webhook
+Content-Type: application/json
+
+{
+  "orderId": "<paste-order-id-from-create-response>"
+}
+

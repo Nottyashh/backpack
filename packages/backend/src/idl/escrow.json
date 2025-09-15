@@ -1,0 +1,21 @@
+{
+  "version": "0.0.0",
+  "name": "escrow_placeholder",
+  "instructions": [
+    {
+      "name": "release",
+      "accounts": [
+        { "name": "escrow", "isMut": true, "isSigner": false },
+        { "name": "seller", "isMut": true, "isSigner": true },
+        { "name": "buyer", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    }
+  ],
+  "metadata": {
+    "placeholder": true,
+    "todo": "Replace entire file with real escrow IDL JSON."
+  }
+}
+

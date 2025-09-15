@@ -6,6 +6,7 @@
       "outputs": [
         "build/**",
         "dist/**",
+        "packages/backend/dist/**",
         "packages/wallet-standard/lib/**",
         "node_modules/.cache/metro/**"
       ],
@@ -29,6 +30,10 @@
     "test": {
       "dependsOn": ["^build"],
       "inputs": ["**/*.{ts,tsx,js,jsx}"]
+    },
+    "e2e": {
+      "dependsOn": ["^build"],
+      "outputs": []
     },
     "start": {
       "dependsOn": ["^build"]
