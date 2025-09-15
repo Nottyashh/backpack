@@ -8,6 +8,7 @@
       "examples",
       "examples/xnft/*",
       "packages/*",
+      "packages/backend",
       "web"
     ]
   },
@@ -20,7 +21,7 @@
     "submodule": "git submodule update --init && rm -f packages/trek-api-web-ts/yarn.lock && yarn",
     "build": "env-cmd --silent turbo run build --filter='!./examples/**'",
     "build:fresh": "git add . && git clean -xfd && yarn install && yarn submodule && yarn build --force",
-    "e2e": "env-cmd --silent turbo run e2e",
+    "e2e": "env-cmd --silent turbo run e2e --filter 'deedify-backend'",
     "clean": "git clean -xfd",
     "start:ext": "env-cmd --silent turbo run start --filter='@coral-xyz/app-extension...' --filter='@coral-xyz/background...' --concurrency=50",
     "build:ext": "env-cmd --silent turbo run build --filter='@coral-xyz/app-extension...' --filter='@coral-xyz/background...'",
